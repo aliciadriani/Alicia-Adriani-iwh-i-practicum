@@ -21,9 +21,9 @@ app.get('/', async (req, res) => {
         'Content-Type': 'application/json'
     }
     try {
-        const resp = await axios.get(contacts, { headers });
+        const resp = await axios.get(contacts, {headers});
         const data = resp.data.results;
-        res.render('homepage', { title: 'Custom Contact Form', data });      
+        res.render('homepage', {title: 'Custom Contact Form', data});      
     } catch (error) {
         console.error(error);
     }
@@ -35,14 +35,13 @@ app.get('/', async (req, res) => {
 
 app.get("/update-cobj", async (req, res) => {
     const contacts = `https://api.hubspot.com/crm/v3/objects/contacts?properties=firstname,lastname,cats_names,age,favorite_food`;
-
     const headers = {
     Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
     "Content-Type": "application/json",
     };
 
     try {
-    const resp = await axios.get(contacts, { headers });
+    const resp = await axios.get(contacts, {headers});
     const data = resp.data.results;
     res.render("updates", {
         title: "Update Custom Object Form | Integrating With HubSpot I Practicum",
@@ -57,6 +56,34 @@ app.get("/update-cobj", async (req, res) => {
 // TODO: ROUTE 3 - Create a new app.post route for the custom objects form to create or update your custom object data. Once executed, redirect the user to the homepage.
 
 // * Code for Route 3 goes here
+
+app.post("/update-cobj", async (req, res) => {
+
+    const add = {
+    properties: {
+        "firstname": req.body.newFirstname,
+        "lastname": req.body.newLastname,
+        "cats_names": req.body.newCats_names,
+        "age": req.body.newAge,
+        "favorite_food": req.body.newFavorite_food,
+    },
+    };
+
+    const Createcontact = `https://api.hubspot.com/crm/v3/objects/contacts?properties=firstname,lastname,cats_names,age,favorite_food`;
+
+    const headers = {
+    Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+    "Content-Type": "application/json",
+    };
+
+    try {
+    await axios.post(Createcontact, add, { headers });
+    res.redirect("/");
+
+    } catch (error) {
+    console.error(error);
+    }
+});  
 /** 
 * * This is sample code to give you a reference for how you should structure your calls. 
 
