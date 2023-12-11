@@ -8,11 +8,27 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // * Please DO NOT INCLUDE the private app access token in your repo. Don't do this practicum in your normal account.
-const PRIVATE_APP_ACCESS = '';
+const PRIVATE_APP_ACCESS = 'pat-na1-fa327251-a0b6-4376-9c10-6f7d1a96d690';
 
 // TODO: ROUTE 1 - Create a new app.get route for the homepage to call your custom object data. Pass this data along to the front-end and create a new pug template in the views folder.
 
 // * Code for Route 1 goes here
+
+app.get('/', async (req, res) => {
+    const contacts = `https://api.hubspot.com/crm/v3/objects/contacts?properties=firstname,lastname,cats_names,age,favorite_food`;
+    const headers = {
+        Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+        'Content-Type': 'application/json'
+    }
+    try {
+        const resp = await axios.get(contacts, { headers });
+        const data = resp.data.results;
+        res.render('homepage', { title: 'Custom Contact Form', data });      
+    } catch (error) {
+        console.error(error);
+    }
+});
+
 
 // TODO: ROUTE 2 - Create a new app.get route for the form to create or update new custom object data. Send this data along in the next route.
 
@@ -21,7 +37,6 @@ const PRIVATE_APP_ACCESS = '';
 // TODO: ROUTE 3 - Create a new app.post route for the custom objects form to create or update your custom object data. Once executed, redirect the user to the homepage.
 
 // * Code for Route 3 goes here
-
 /** 
 * * This is sample code to give you a reference for how you should structure your calls. 
 

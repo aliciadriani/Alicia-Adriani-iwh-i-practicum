@@ -1,0 +1,22 @@
+doctype html
+html(lang="en")
+    head 
+        title Custom Object Table
+        meta(name="viewport" content="width=device-width, initial-scale=1")
+        link(rel="stylesheet", href="/css/style.css")
+    body
+        h1 Custom Object Table
+        p #[a(href='/update-cobj?object=contact') Add/Update this table]  
+        table.table-bordered
+            thead(width='100%', cellspacing='0', cellpadding='0', border='0', bgcolor='#FFDFBF')
+                tr
+                    th Name
+                    th Color
+                    th Age
+                    th Favorite Food
+                each contact in data
+                        tr(width='100%', cellspacing='0', cellpadding='0', border='0', bgcolor='#FFffff') 
+                            td #{contact.properties.firstname}  #{contact.properties.lastname}
+                            td #{contact.properties.cats_names}
+                            td #{contact.properties.age} 
+                            td #{contact.properties.favorite_food}   
